@@ -1,0 +1,22 @@
+This is a test application to prove out a bug I am experiencing with rspec-rails controller tests throwing ActionController::RoutingError for nested controllers.
+
+Open issue is here:
+https://github.com/rspec/rspec-rails/issues/671
+
+It appears to be related to this issue/change in journey:
+https://github.com/rails/journey/issues/39
+
+There are two tests in this proof of concept app that have been pulled from the application where I am experiencing the problem. Simply run:
+
+    bundle
+    bundle exec rspec
+
+The bug has to do with the upgrade from journey 1.0.3 to 1.0.4. You can make these tests pass by downgrading journey, but you also have to downgrade rails since rails 3.2.11 depends on journey 1.0.4. See the Gemfile for details on versions.
+
+Somewhere inside Journey::Formatter it is failing to generate a route for these options:
+
+{:action=>"index",
+:payment_id=>"314",
+:controller=>"payments/payment_policies"}
+
+I'm fully aware I might just be doing something incorrectly, and I would love to be corrected if the problem is that simple.
