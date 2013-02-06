@@ -1,3 +1,21 @@
+** Solved?
+
+This turned out to be a problem with the syntax I used to define my nested/namespaced controllers.
+
+Snip from the routes file:
+
+  resources :payments, only: [:index] do
+    ## This works in the app, but fails in rspec
+    resources :payment_policies, only: [:index], controller: "Payments::PaymentPolicies"
+
+    ## Either of these work in rspec and in the app
+    # resources :payment_policies, only: [:index], controller: "payments/payment_policies"
+    # resources :payment_policies, only: [:index], module: :payments
+  end
+
+
+** Original README
+
 This is a test application to prove out a bug I am experiencing with rspec-rails controller tests throwing ActionController::RoutingError for nested controllers.
 
 Open issue is here:
@@ -18,5 +36,3 @@ Somewhere inside Journey::Formatter it is failing to generate a route for these 
 {:action=>"index",
 :payment_id=>"314",
 :controller=>"payments/payment_policies"}
-
-I'm fully aware I might just be doing something incorrectly, and I would love to be corrected if the problem is that simple.
